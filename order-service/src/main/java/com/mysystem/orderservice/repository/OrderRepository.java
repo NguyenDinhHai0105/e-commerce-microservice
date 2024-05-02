@@ -1,4 +1,4 @@
-package com.mysystem.orderservice.service.impl;
+package com.mysystem.orderservice.repository;
 
 import com.mysystem.orderservice.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
