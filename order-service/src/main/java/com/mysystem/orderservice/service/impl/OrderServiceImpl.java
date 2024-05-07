@@ -21,12 +21,12 @@ import java.util.UUID;
 public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
-    private WebClient webClient;
+    private WebClient.Builder webClientBuilder;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, WebClient webClient) {
+    public OrderServiceImpl(OrderRepository orderRepository, WebClient.Builder webClientBuilder) {
         this.orderRepository = orderRepository;
-        this.webClient = webClient;
+        this.webClientBuilder = webClientBuilder;
     }
 
     @Override
@@ -44,8 +44,8 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
         // call inventory service and place order if product is in stock
 //        webClient.get().uri("http://localhost:/api/inventory").exchangeToMono()
-        InventoryResponse[] inventoryResponseArray = webClient.get()
-                .uri("http://localhost:8083/api/inventory", uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+        InventoryResponse[] inventoryResponseArray = webClientBuilder.build().get()
+                .uri("http://inventory-service/api/inventory", uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class)
                 .block();
