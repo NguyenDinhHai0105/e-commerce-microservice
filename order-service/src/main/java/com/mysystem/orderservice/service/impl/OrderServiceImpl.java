@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void placeOrder(OrderRequest orderRequest) {
+    public String placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
         List<OrderLineItems> orderLineItems = orderRequest.getOrderLineItemsDtoList()
@@ -54,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
         if (allProductIsInStock) {
             orderRepository.save(order);
+            return "Order request successfully";
         } else {
             throw new IllegalArgumentException("Product is not in stock, try again");
         }
